@@ -1,12 +1,15 @@
     (function () {
 
-        let pokemonsList = document.querySelector('.pokemons-list');
         let colorPokemonType = []
         let pokemonOnPage = 12;
         let pokemonListSize = pokemonOnPage;
         let pokemonListData = [];
-        let pokemonList
-        let loadMore = document.querySelector('.load-more');
+        let pokemonList;
+        let closePokemonInformation;
+
+        const pokemonsList = document.querySelector('.pokemons-list');
+        const loadMore = document.querySelector('.load-more');
+        const pokemonInformation = document.querySelector('.pokemon-information');
 
         fetchPokemonType();
 
@@ -90,8 +93,18 @@
                         console.log(event.target.innerText)
                     } else {
                         renderPokemonInformation(event.currentTarget.getAttribute('data-id'))
+                        pokemonInformation.classList.remove('hidden');
+                        closeInformation();
                     }
                 })
+            })
+        }
+
+
+        closeInformation = () =>{
+            closePokemonInformation = document.querySelector('.close');
+            closePokemonInformation.addEventListener( 'click', () =>{
+                pokemonInformation.classList.add('hidden');
             })
         }
 
@@ -121,9 +134,9 @@
                 }
             })
             let spd = sellektPokemonData;
-            console.log(spd)
             pokemonInformation = `
             <div class="pokemon-information-wrapper">
+                <div class="close"></div>
                 <img class="pokemons-list-item__img" src=${spd.sprites.front_default} alt="Sellect Pokemon Photo">
                 <table class="pokemon-information-table">
                         <caption>${spd.name}  #00${spd.id}</caption>
