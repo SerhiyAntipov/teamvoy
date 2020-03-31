@@ -1,0 +1,162 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #292929;
+}
+
+.pokemons {
+    display: flex;
+    padding: 2rem 5rem 5rem;
+    box-sizing: border-box;
+    min-width: 320px;
+}
+
+.pokemons-title {
+    display: block;
+    max-width: 800px;
+    width: calc(100% - 30px);
+    margin: 5rem auto 0;
+    padding: 1rem;
+    border: 1px solid #5f5f5f;
+    text-align: center;
+    font-size: 4rem;
+    box-sizing: border-box;
+}
+
+.pokemons-list-wrapper {
+    flex-grow: 1;
+}
+
+.selected-view {
+    width: 40%;
+}
+
+.pokemons-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 25px;
+}
+
+.pokemons-list-item {
+    padding: 0.8rem 0.8rem 2rem;
+    border: 1px solid #5f5f5f;
+}
+
+.pokemons-list-item__img {
+    width: 100%;
+    height: auto;
+    border: 1px solid #5f5f5f;
+    cursor: pointer;
+}
+
+.pokemons-list-item__title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: capitalize;
+    padding: 2rem 0.5rem 1rem;
+    margin: 0;
+}
+
+.pokemons-list,
+.pokemons-list-item__types {
+    list-style-type: none;
+}
+
+.pokemons-list-item__types {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pokemons-list-item__types-li {
+    min-width: 48%;
+    padding: 0.6rem 2px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.pokemons-list-item__types-li:hover {
+    cursor: pointer;
+    filter: contrast(150%);
+}
+
+.load-more {
+    width: 100%;
+    margin-top: 3rem;
+    padding: 1.4rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: capitalize;
+    color: white;
+    background-color: #008cff;
+    box-shadow: 0px 0px 3px 2px #00000087;
+}
+
+.load-more:hover {
+    background-color: #0065b8;
+}
+
+@media only screen and (max-width: 1200px) {
+    html {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    html {
+        font-size: 16px;
+    }
+
+    .pokemons {
+        padding: 2rem 1rem;
+    }
+
+    .pokemons-list-item__types-li {
+        font-size: 1.2rem;
+    }
+
+    .selected-view {
+        position: absolute;
+        width: auto;
+    }
+
+    .pokemons-title {
+        margin-top: 2rem;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .pokemons-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    html {
+        font-size: 12px;
+    }
+
+    .pokemons {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    html {
+        font-size: 20px;
+    }
+
+    .pokemons-title {
+        font-size: 3rem;
+    }
+
+    .pokemons-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
