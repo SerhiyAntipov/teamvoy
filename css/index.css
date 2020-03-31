@@ -4,6 +4,7 @@ html {
 }
 
 .pokemons {
+    position: relative;
     display: flex;
     padding: 2rem 5rem 5rem;
     box-sizing: border-box;
@@ -24,10 +25,7 @@ html {
 
 .pokemons-list-wrapper {
     flex-grow: 1;
-}
-
-.selected-view {
-    width: 40%;
+    margin-right: 35%;
 }
 
 .pokemons-list {
@@ -39,6 +37,7 @@ html {
 .pokemons-list-item {
     padding: 0.8rem 0.8rem 2rem;
     border: 1px solid #5f5f5f;
+    user-select: none;
 }
 
 .pokemons-list-item__img {
@@ -101,6 +100,47 @@ html {
     background-color: #0065b8;
 }
 
+
+.pokemon-information {
+    width: calc(35% - 5rem);
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    user-select: none;
+    margin-right: 5rem;
+}
+
+.pokemon-information-wrapper {
+    border: 1px solid #5f5f5f;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.pokemon-information-table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.pokemon-information-table caption {
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-transform: capitalize;
+    padding: 1rem 0;
+}
+
+.pokemon-information-table td {
+    border: 1px solid #000;
+    padding: 0.5rem;
+    font-size: 1.4rem;
+    text-transform: capitalize;
+}
+
+.namename-characteristic {
+    width: 70%;
+}
+
 @media only screen and (max-width: 1200px) {
     html {
         font-size: 12px;
@@ -120,10 +160,14 @@ html {
         font-size: 1.2rem;
     }
 
-    .selected-view {
+    .pokemons-list-wrapper {
+        margin-right: unset;
+    }
+
+    /* .pokemon-information {
         position: absolute;
         width: auto;
-    }
+    } */
 
     .pokemons-title {
         margin-top: 2rem;
