@@ -90,7 +90,7 @@
             pokemonsImg.forEach((data) => {
                 data.addEventListener('click', (event) => {
                     if (event.target.classList.value == 'pokemons-list-item__types-li') {
-                        console.log(event.target.innerText)
+                        pokemonFilter(event.target.innerText);
                     } else {
                         renderPokemonInformation(event.currentTarget.getAttribute('data-id'))
                         pokemonInformation.classList.remove('hidden');
@@ -100,10 +100,30 @@
             })
         }
 
+        pokemonFilter = (filterData) => {
+            filterData = filterData.toLowerCase()
+            let newArry = []
 
-        closeInformation = () =>{
+            pokemonListData.forEach((data, i) => {
+                let triger = '';
+                data.types.forEach((object, x) => {
+                    triger = false;
+                    if (object.type.name == filterData) {
+                        newArry.push(data)
+                    }
+                })
+            })
+            if (newArry.length > 0) {
+                pokemonsList.innerHTML = '';
+                renderPokemonsList(newArry);
+            }
+        }
+
+
+        // Close Detal  Pokemon Information
+        closeInformation = () => {
             closePokemonInformation = document.querySelector('.close');
-            closePokemonInformation.addEventListener( 'click', () =>{
+            closePokemonInformation.addEventListener('click', () => {
                 pokemonInformation.classList.add('hidden');
             })
         }
@@ -178,7 +198,6 @@
             `
             document.querySelector('.pokemon-information').innerHTML = pokemonInformation;
         }
-
 
         // Click Load More
         loadMore.addEventListener("click", function () {
