@@ -2,7 +2,8 @@
 
     let pokemonsList = document.querySelector('.pokemons-list');
     let colorPokemonType = []
-    let pokemonListSize = 12;
+    let pokemonOnPage = 12;
+    let pokemonListSize = pokemonOnPage;
     let pokemonListData = [];
     let pokemonList
     let loadMore = document.querySelector('.load-more');
@@ -20,41 +21,44 @@
                 pokemonType.forEach((object) => {
                     colorPokemonType.push([object.name, '#' + Math.random().toString(16).substr(-6)])
                 })
-                fetchPokemonList(pokemonListSize);
+                fetchPokemonList(pokemonOnPage);
             })
     };
 
     // Pokemon List
-    function fetchPokemonList(pokemonListSize) {
-        fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${pokemonListSize}`)
+    function fetchPokemonList(pokemonOnPage) {
+        fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${pokemonOnPage}`)
             .then(data => {
                 return data.json();
             })
             .then(data => {
                 pokemonList = data.results;
-                fetchPokemonData()
+                fetchPokemonData(pokemonList)
             })
     };
 
     // Pokemon Data
-    function fetchPokemonData() {
+    function fetchPokemonData(pokemonList) {
+        let tempData = []
         pokemonList.forEach((object) => {
             fetch(object.url)
                 .then(data => {
                     return data.json();
                 })
                 .then(data => {
-                    pokemonListData.push(data)
-                    if (pokemonListData.length >= pokemonListSize) {
-                        renderPokemonsList();
+                    pokemonListData.push(data);
+                    tempData.push(data);
+                    if (tempData.length >= pokemonList.length) {
+                        renderPokemonsList(tempData);
                     }
                 })
         })
     }
 
     // Render Pokemons List
-    renderPokemonsList = () => {
-        pokemonListData.forEach((data, i) => {
+    renderPokemonsList = (tempData) => {
+        console.log(pokemonListData)
+        tempData.forEach((data, i) => {
             let list = ''
             data.types.forEach((data, i) => {
                 let color = data.type.name
@@ -83,23 +87,25 @@
         let pokemonsImg = document.querySelectorAll('.pokemons-list-item');
         pokemonsImg.forEach((data) => {
             data.addEventListener('click', (event) => {
-                if (event.target.classList.value == 'pokemons-list-item__types') {
+                if (event.target.classList.value == 'pokemons-list-item__types-li') {
                     console.log(event.target.innerText)
-                } else console.log(event.currentTarget.getAttribute('data-id'))
+                } else {
+                    console.log(event.currentTarget.getAttribute('data-id'))
+                }
             })
         })
     }
 
     // Click Load More
     loadMore.addEventListener("click", function () {
-        fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${pokemonListSize}&limit=12`)
+        fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${pokemonListSize}&limit=${pokemonOnPage}`)
             .then(data => {
                 return data.json();
             })
             .then(data => {
-                pokemonList = data.results;
-                fetchPokemonData()
+                data = data.results;
+                fetchPokemonData(data)
             })
-        pokemonListSize = pokemonListSize + 12
+        pokemonListSize = pokemonListSize + pokemonListSize
     })
 })()
