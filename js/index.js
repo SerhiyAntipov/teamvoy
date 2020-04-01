@@ -3,17 +3,16 @@
         let colorPokemonType = []
         let pokemonOnPage = 12;
         let pokemonListSize = pokemonOnPage;
-        let pokemonListData = [];
         let pokemonList;
+        let pokemonListData = [];
         let closePokemonInformation;
-
         const pokemonsList = document.querySelector('.pokemons-list');
         const loadMore = document.querySelector('.load-more');
         const pokemonInformation = document.querySelector('.pokemon-information');
+        const filter = document.querySelector('.filter');
 
         fetchPokemonType();
-
-        // Get Pokemon Type & Add random color
+        // Get types of all Pokemon & Add random color for each type of Pokemon --------
         function fetchPokemonType() {
             fetch(`https://pokeapi.co/api/v2/type/?limit=999`)
                 .then(pokemonType => {
@@ -28,7 +27,7 @@
                 })
         };
 
-        // Pokemon List
+        // Get list Pokemons ----------------------------------------------------------
         fetchPokemonList = (pokemonOnPage) => {
             fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${pokemonOnPage}`)
                 .then(data => {
@@ -40,9 +39,9 @@
                 })
         };
 
-        // Pokemon Data
+        //Get data of Pokemons list ---------------------------------------------------
         fetchPokemonData = (pokemonList) => {
-            let tempData = []
+            let tempPokemonList = []
             pokemonList.forEach((object) => {
                 fetch(object.url)
                     .then(data => {
@@ -50,17 +49,17 @@
                     })
                     .then(data => {
                         pokemonListData.push(data);
-                        tempData.push(data);
-                        if (tempData.length >= pokemonList.length) {
-                            renderPokemonsList(tempData);
+                        tempPokemonList.push(data);
+                        if (tempPokemonList.length >= pokemonList.length) {
+                            renderPokemons(tempPokemonList);
                         }
                     })
             })
         }
 
-        // Render Pokemons List
-        renderPokemonsList = (tempData) => {
-            tempData.forEach((data, i) => {
+        // Render Pokemons ------------------------------------------------------------
+        renderPokemons = (tempPokemonList) => {
+            tempPokemonList.forEach((data, i) => {
                 let list = ''
                 data.types.forEach((data, i) => {
                     let color = data.type.name
@@ -69,7 +68,6 @@
                             backgroundColor = data[1];
                         }
                     })
-
                     list += `<li class="pokemons-list-item__types-li" data-type=${data.type.name} style="background: linear-gradient(to top, ${backgroundColor}, #fff); border:solid 1px ${backgroundColor};">${data.type.name}</li>`
                 })
                 pokemonsList.innerHTML +=
@@ -84,51 +82,22 @@
             clickOnPokemon();
         }
 
-        // Click On Pokemons Item 
+        // Click On Pokemon => (Detal Pokemon Information / Pokemon Filter)-------------
         clickOnPokemon = () => {
             let pokemonsImg = document.querySelectorAll('.pokemons-list-item');
             pokemonsImg.forEach((data) => {
                 data.addEventListener('click', (event) => {
                     if (event.target.classList.value == 'pokemons-list-item__types-li') {
-                        pokemonFilter(event.target.innerText);
+                        pokemonFilter(event);
                     } else {
                         renderPokemonInformation(event.currentTarget.getAttribute('data-id'))
                         pokemonInformation.classList.remove('hidden');
-                        closeInformation();
                     }
                 })
             })
         }
 
-        pokemonFilter = (filterData) => {
-            filterData = filterData.toLowerCase()
-            let newArry = []
-
-            pokemonListData.forEach((data, i) => {
-                let triger = '';
-                data.types.forEach((object, x) => {
-                    triger = false;
-                    if (object.type.name == filterData) {
-                        newArry.push(data)
-                    }
-                })
-            })
-            if (newArry.length > 0) {
-                pokemonsList.innerHTML = '';
-                renderPokemonsList(newArry);
-            }
-        }
-
-
-        // Close Detal  Pokemon Information
-        closeInformation = () => {
-            closePokemonInformation = document.querySelector('.close');
-            closePokemonInformation.addEventListener('click', () => {
-                pokemonInformation.classList.add('hidden');
-            })
-        }
-
-        //Render Pokemon Information
+        //Render Pokemon Information----------------------------------------------------
         renderPokemonInformation = (id) => {
             let sellektPokemonData = "";
             let pokemonInformation = '';
@@ -197,9 +166,18 @@
             </div>
             `
             document.querySelector('.pokemon-information').innerHTML = pokemonInformation;
+            closePokemonInfo();
         }
 
-        // Click Load More
+        // Close Detal Pokemon Information----------------------------------------------
+        closePokemonInfo = () => {
+            closePokemonInformation = document.querySelector('.close');
+            closePokemonInformation.addEventListener('click', () => {
+                pokemonInformation.classList.add('hidden');
+            })
+        }
+
+        // Load More--------------------------------------------------------------------
         loadMore.addEventListener("click", function () {
             fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${pokemonListSize}&limit=${pokemonOnPage}`)
                 .then(data => {
@@ -211,4 +189,45 @@
                 })
             pokemonListSize = pokemonListSize + pokemonListSize
         });
+
+        // Pokemon Filter---------------------------------------------------------------
+        pokemonFilter = (event) => {
+            dataForFilter = event.target.innerText.toLowerCase()
+            
+            let filteredPokemonArray = []
+            pokemonListData.forEach((data, i) => {
+                let triger = '';
+                data.types.forEach((object, x) => {
+                    triger = false;
+                    if (object.type.name == dataForFilter) {
+                        filteredPokemonArray.push(data)
+                    }
+                })
+            })
+            if (filteredPokemonArray.length > 0) {
+                pokemonsList.innerHTML = '';
+                renderPokemons(filteredPokemonArray);
+                filter.innerHTML = "";
+                filter.innerHTML += `
+                <li class="pokemons-list-item__types-li">Filtered by: </li>`
+                filter.appendChild(event.target);
+                filter.innerHTML += `
+                <li class="btn-reset-filter pokemons-list-item__types-li">reset filter</li>
+                `
+                filter.classList.remove('hidden');
+                resetFilter();
+            }
+        }
+
+        // Reset Pokemon Filter--------------------------------------------------------
+        resetFilter = () => {
+            let btnResetFilter = document.querySelector('.btn-reset-filter');
+            btnResetFilter.addEventListener('click', () => {
+                pokemonsList.innerHTML = "";
+                filter.innerHTML = "";
+                filter.classList.add('hidden');
+
+                renderPokemons(pokemonListData);
+            })
+        }
     })()

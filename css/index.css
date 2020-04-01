@@ -6,10 +6,6 @@
     border: 1px solid #000;
 }
 
-.hidden {
-    visibility: hidden;
-}
-
 .close {
     width: 30px;
     height: 30px;
@@ -140,7 +136,7 @@
 }
 
 
-.pokemon-information {
+.pokemons .pokemon-information {
     width: 285px;
     position: relative;
     box-sizing: border-box;
@@ -182,17 +178,75 @@
     width: 70%;
 }
 
+.filter {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    margin-bottom: -2rem;
+    z-index: 5;
+}
+
+.filter .pokemons-list-item__types-li:hover {
+    filter: none;
+}
+
+.filter li {
+    width: max-content;
+    min-width: 160px;
+    margin-bottom: 10px;
+    user-select: none;
+}
+
+.filter li:hover {
+    cursor: unset;
+}
+
+.btn-reset-filter {
+    background: #008cff;
+    color: white;
+    border: solid 1px #008cff;
+    box-shadow: 0px 0px 3px 2px #00000087;
+}
+
+.filter .btn-reset-filter:hover {
+    background-color: #0065b8;
+    border: solid 1px #0065b8;
+    cursor: pointer;
+}
+
+.filter li:first-child {
+    margin-top: 20px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.hidden {
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    font-size: 1px;
+    margin: 0;
+    padding: 0;
+}
+
 @media only screen and (max-width: 1200px) {
     html {
         font-size: 12px;
     }
-    .pokemon-information {
+
+    .pokemons .pokemon-information {
         width: 275px;
     }
+
     .pokemon-information-wrapper {
         width: 260px;
     }
-    .pokemon-information-table td{
+
+    .pokemon-information-table td {
         font-size: 1.6rem;
     }
 }
@@ -218,7 +272,7 @@
         margin-top: 2rem;
     }
 
-    .pokemon-information {
+    .pokemons .pokemon-information {
         width: 100%;
         height: 100vh;
         padding-left: 0;
@@ -229,6 +283,7 @@
         user-select: none;
         margin-right: 0;
         background-color: #ffffffdb;
+        z-index: 10;
     }
 
     .pokemon-information-wrapper {
@@ -251,7 +306,8 @@
     .pokemons-list-item__title {
         padding: 0.3rem 0.1rem 0.5rem;
     }
-    .pokemon-information-table td{
+
+    .pokemon-information-table td {
         font-size: 1.2rem;
     }
 }
