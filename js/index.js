@@ -72,7 +72,7 @@
                 })
                 pokemonsList.innerHTML +=
                     `<li class="pokemons-list-item" data-id=${data.id}>
-                    <img src=${data.sprites.front_default} class="pokemons-list-item__img">
+                    <img src=${data.sprites.front_default} class="pokemons-list-item__img" alt="img pokemon ${data.name}">
                     <h3 class="pokemons-list-item__title">${data.name}</h3>
                     <ul class="pokemons-list-item__types">
                         ${list}
